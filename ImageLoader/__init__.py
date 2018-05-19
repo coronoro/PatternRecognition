@@ -5,18 +5,19 @@ import os
 import os.path
 
 
-pathToImages = "../images/"
+
+pathToImages = "../images/Graffiti_mit_ohne"
 
 class Modus(Enum):
-    TEST = ""
-    TRAINING = "/Graffiti_mit_ohne"
+    TEST = "Test"
+    TRAINING =  "Training"
 
 def loadTestImages():
     images = []
-    testPath = pathToImages + Modus.TRAINING.value
+    testPath = pathToImages
     for dirpath, dirnames, filenames in os.walk(testPath):
         for dir in dirnames:
-            if "Training" in dir:
+            if Modus.TRAINING.value in dir:
                 images.append(getImages(testPath+"/"+dir))
     return images
 
