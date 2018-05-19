@@ -1,10 +1,11 @@
 import numpy as np
 import scipy.ndimage as ndimage
+import scipy.misc as misc
 from enum import Enum
 import os
 import os.path
 
-limit = 3
+limit = 700
 
 pathToImages = "../images/Graffiti_mit_ohne"
 
@@ -38,7 +39,10 @@ def getImages(path, dir):
     for dirpath ,_, files in os.walk(path+ "/" + dir):
         for file in files:
             if temp < limit:
-                images.append(ndimage.imread(path + "/" + dir+"/" + file))
+                image = ndimage.imread(path + "/" + dir + "/" + file)
+                image = misc.imresize(image,(100, 75))
+                images.append(image)
+
                 if "ohne" in dir:
                     detect.append(False)
                 else:
