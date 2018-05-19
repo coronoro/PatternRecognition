@@ -13,20 +13,26 @@ class Modus(Enum):
     TRAINING =  "Training"
 
 def loadTestImages():
-    images = []
+    allImages = []
+    allDetect = []
     testPath = pathToImages
     for dirpath, dirnames, filenames in os.walk(testPath):
         for dir in dirnames:
             if Modus.TRAINING.value in dir:
-                images.append(getImages(testPath+"/"+dir))
-    return images
+                images, detect = getImages(testPath+"/"+dir)
+                allImages.append(images)
+                allDetect.append(detect)
+    return allImages, allDetect
 
 
 def getImages(path):
     images = []
-    for _,_, files in os.walk(path):
+    detect = []
+    for dirpath ,_, files in os.walk(path):
         for file in files:
-            images.append(ndimage.imread(path+"/"+file))
-    return images
-
-print(loadTestImages()     )
+            images.append(ndimage.imread(path + "/" + file))
+            if "ohne" in dirpath:
+                detect.append(False)
+            else:
+                detect.append(True)
+    return images, detect
